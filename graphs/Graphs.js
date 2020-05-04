@@ -16,11 +16,11 @@ const Stack = require('../structs/Stack')
 class Graph {
   constructor() {
     this.edges = {}
-    this.vertex = []
+    this.verticies = []
   }
 
   addVertex(vertex) {
-    this.vertex.push(vertex)
+    this.verticies.push(vertex)
     this.edges[vertex] = []
   }
 
@@ -35,7 +35,7 @@ class Graph {
 
   display() {
     let graph = '';
-    for(const vertex of this.vertex) {
+    for(const vertex of this.verticies) {
       const edges = this.edges[vertex].map(edge => edge.vertex)
       graph += `${vertex} -> ${edges.join(', ')} \n`
     }
@@ -44,7 +44,7 @@ class Graph {
 
   dfs(vertex){
     // creo la struttura dati di appoggio e il Set dei vertici esplorati
-    const stack = new Stack(this.vertex.length)
+    const stack = new Stack(this.verticies.length)
     const explored = new Set()
     // aggiungo alla struttura dati di appoggio e al set dei vertici esplorati il vertice di partenza
     stack.push(vertex)
@@ -61,6 +61,10 @@ class Graph {
        * 3. e li marchiamo come visitati
        */
       const edges = this.edges[current].filter(edge => !explored.has(edge.vertex))
+      //------ > da Errore: non può leggere la proprietà filter su undefined
+      // ------> perché this.edges[current] è undefined ?
+
+
       for(const edge of edges) {
         stack.push(edge.vertex)
         explored.add(edge.vertex)
@@ -70,7 +74,7 @@ class Graph {
 
   /** VEDI COMMENTI DSF */
   bfs(vertex){
-    const queue = new Queue(this.vertex.length)
+    const queue = new Queue(this.verticies.length)
     const explored = new Set()
     queue.enqueue(vertex)
     explored.add(vertex)
@@ -92,7 +96,7 @@ class Graph {
     */
     const distances = {}
     const paths = {}
-    const pq = new PriorityQueue(this.vertex.length * this.vertex.length)
+    const pq = new PriorityQueue(this.verticies.length * this.verticies.length)
     
     /**
      * IMPOSTO IL RISULTATO DEL VERTICE DI PARTENZA
@@ -109,7 +113,7 @@ class Graph {
      * e imposto il primo elemento di ogni vertice tranne startVertex a startVertex
      * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
      */
-    for(const vertex of this.vertex) {
+    for(const vertex of this.verticies) {
       if(vertex !== startVertex) {
         distances[vertex] = Infinity
       }
