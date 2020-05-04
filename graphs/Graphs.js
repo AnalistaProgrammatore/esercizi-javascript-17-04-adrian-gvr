@@ -61,7 +61,7 @@ class Graph {
        * 3. e li marchiamo come visitati
        */
       const edges = this.edges[current].filter(edge => !explored.has(edge.vertex))
-      //------ > da Errore: non può leggere la proprietà filter su undefined
+      //----- > da Errore: non può leggere la proprietà filter su undefined
       // ------> perché this.edges[current] è undefined ?
 
 
